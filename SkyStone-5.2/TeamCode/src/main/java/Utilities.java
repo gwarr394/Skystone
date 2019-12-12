@@ -5,7 +5,7 @@ public class Utilities {
         long start = System.nanoTime();
         long current;
         long elapsed = 0;
-        while(elapsed < a*1000000) {
+        while(elapsed < (a)*333333) {
             current = System.nanoTime();
             elapsed = current - start;
         }
@@ -41,14 +41,14 @@ public class Utilities {
         double SPIN_IN = (degree/360)*SPIN_CIRCUM_IN;
         return inch_per_enc(SPIN_IN);
     }
-    public void index (DcMotor tl, DcMotor tr, DcMotor bl, DcMotor br, double inches_per_second, double total_distance_in, double accel_percent, double decel_percent, double angle) {
+    public double index (DcMotor tl, DcMotor tr, DcMotor bl, DcMotor br, double inches_per_second, double total_distance_in, double accel_percent, double decel_percent, double angle) {
         // profile state definitions
         final int INIT = 0;
         final int ACCEL = 1;
         final int CONST = 2;
         final int DECEL = 3;
         final int DONE = 4;
-        int TIC = 5; // update rate in ms
+        int TIC = 10; // update rate in ms
         int state = INIT; // first case
         double accel_dist_enc = 0;
         double decel_dist_enc = 0;
@@ -64,6 +64,7 @@ public class Utilities {
         double accel_time = 0.0;
         double decel_time = 0.0;
         double sign = 1;
+        int count = 0;
 
         while (state != DONE) {
             switch (state) {
@@ -133,16 +134,18 @@ public class Utilities {
                 case DONE:
                     break;
             }
-            tl.setTargetPosition((int)(position*sign*b));
-            tr.setTargetPosition((int)(position*sign*a));
-            bl.setTargetPosition((int)(position*sign*a));
-            br.setTargetPosition((int)(position*sign*b));
+            tl.setTargetPosition((int)(position*sign*a));
+            tr.setTargetPosition((int)(position*sign*b));
+            bl.setTargetPosition((int)(position*sign*b));
+            br.setTargetPosition((int)(position*sign*a));
             tl.setPower(1.0);
             tr.setPower(1.0);
             bl.setPower(1.0);
             br.setPower(1.0);
             my_sleep((long)TIC);
+            count = count+1;
         }
+        return(count);
     }
     public void turn_index (DcMotor tl, DcMotor tr, DcMotor bl, DcMotor br, double inches_per_second, double degree, double accel_percent, double decel_percent, double angle) {
         // profile state definitions
@@ -151,7 +154,7 @@ public class Utilities {
         final int CONST = 2;
         final int DECEL = 3;
         final int DONE = 4;
-        int TIC = 5; // update rate in ms
+        int TIC = 10; // update rate in ms
         int state = INIT; // first case
         double accel_dist_enc = 0;
         double decel_dist_enc = 0;

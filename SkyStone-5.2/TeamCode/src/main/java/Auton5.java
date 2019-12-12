@@ -3,8 +3,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="AUTONOMOUS_WALL_LINE", group="AUTON")
-public class Auton3 extends LinearOpMode{
+@Autonomous(name="AUTONOMOUS_BRIDGE_LINE2.0", group="AUTON")
+public class Auton5 extends LinearOpMode{
     Utilities robot = new Utilities();
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor top_right = null;
@@ -41,6 +41,14 @@ public class Auton3 extends LinearOpMode{
         bottom_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottom_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
+        robot.index(top_left, top_right, bottom_left, bottom_right, 18.0, 24.0, 0.25, 0.25, 2.0);
+        sleep(1000);
+        top_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        top_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bottom_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bottom_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.index(top_left, top_right, bottom_left, bottom_right, 18.0, 36.0, 0.25, 0.25, 0.0);
     }
 }
+
+

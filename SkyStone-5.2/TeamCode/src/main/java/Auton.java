@@ -1,9 +1,11 @@
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="AUTONOMOUS_F_P_BLUE", group="AUTON")
+@Autonomous(name="RED_FOUND", group="AUTON")
+@Disabled
 public class Auton extends LinearOpMode{
     Utilities robot = new Utilities();
     private ElapsedTime runtime = new ElapsedTime();
@@ -13,6 +15,7 @@ public class Auton extends LinearOpMode{
     private DcMotor bottom_left = null;
     private DcMotor arm = null;
     private DcMotor arm2 = null;
+    private DcMotor grabber = null;
     @Override
     public void runOpMode() {
         top_right = hardwareMap.get(DcMotor.class, "TR");
@@ -20,7 +23,8 @@ public class Auton extends LinearOpMode{
         bottom_right = hardwareMap.get(DcMotor.class, "BR");
         bottom_left = hardwareMap.get(DcMotor.class, "BL");
         arm = hardwareMap.get(DcMotor.class, "A");
-        arm2 = hardwareMap.get(DcMotor.class, "A");
+        arm2 = hardwareMap.get(DcMotor.class, "A2");
+        grabber = hardwareMap.get(DcMotor.class, "G");
         top_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         top_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bottom_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -40,40 +44,18 @@ public class Auton extends LinearOpMode{
         bottom_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         waitForStart();
 
-        top_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        top_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bottom_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bottom_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         top_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         top_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottom_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottom_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        top_left.setTargetPosition(robot.inch_per_enc(12));
-        top_right.setTargetPosition(robot.inch_per_enc(-12));
-        bottom_left.setTargetPosition(robot.inch_per_enc(-12));
-        bottom_right.setTargetPosition(robot.inch_per_enc(12));
-        top_left.setPower(-0.5);
-        top_right.setPower(0.5);
-        bottom_left.setPower(0.5);
-        bottom_right.setPower(-0.5);
+        robot.index(top_left, top_right, bottom_left, bottom_right, 12, 12.625, 0.25, 0.25, 1.0);
         sleep(1000);
 
-        top_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        top_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bottom_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bottom_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         top_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         top_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottom_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottom_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        top_left.setTargetPosition(robot.inch_per_enc(-30));
-        top_right.setTargetPosition(robot.inch_per_enc(-30));
-        bottom_left.setTargetPosition(robot.inch_per_enc(-30));
-        bottom_right.setTargetPosition(robot.inch_per_enc(-30));
-        top_left.setPower(-1.0);
-        top_right.setPower(-1.0);
-        bottom_left.setPower(-1.0);
-        bottom_right.setPower(-1.0);
+        robot.index(top_left, top_right, bottom_left, bottom_right, 20, 29, 0.25, 0.25, 0.0);
         sleep(1000);
 
         arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -88,22 +70,11 @@ public class Auton extends LinearOpMode{
         arm2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         sleep(1000);
 
-        top_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        top_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bottom_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bottom_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         top_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         top_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottom_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottom_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        top_left.setTargetPosition(robot.inch_per_enc(30));
-        top_right.setTargetPosition(robot.inch_per_enc(30));
-        bottom_left.setTargetPosition(robot.inch_per_enc(30));
-        bottom_right.setTargetPosition(robot.inch_per_enc(30));
-        top_left.setPower(1.0);
-        top_right.setPower(1.0);
-        bottom_left.setPower(1.0);
-        bottom_right.setPower(1.0);
+        robot.index(top_left, top_right, bottom_left, bottom_right, 20, -28, 0.25, 0.25, 0.0);
         sleep(1000);
 
         arm.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -124,18 +95,7 @@ public class Auton extends LinearOpMode{
         top_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottom_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bottom_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        top_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        top_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bottom_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bottom_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        top_left.setTargetPosition(robot.inch_per_enc(-40));
-        top_right.setTargetPosition(robot.inch_per_enc(40));
-        bottom_left.setTargetPosition(robot.inch_per_enc(40));
-        bottom_right.setTargetPosition(robot.inch_per_enc(-40));
-        top_left.setPower(-0.5);
-        top_right.setPower(0.5);
-        bottom_left.setPower(0.5);
-        bottom_right.setPower(-0.5);
+        robot.index(top_left, top_right, bottom_left, bottom_right, 24, 48, 0.25, 0.25, 2.0);
         sleep(1000);
         //start on wall
         //move towards foundation close to wall
